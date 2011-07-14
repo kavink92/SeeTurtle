@@ -29,11 +29,6 @@ function test_actions() {
 /* draw on the canvas */
 function draw() {
 
-	var ex=getx();
-	var ey=gety();
-	var ea=getangle();
-
-
 	forward(10);
 	if(ex>700)
 	{
@@ -73,8 +68,13 @@ function draw() {
 		forward(10);
 	}
 
+	ex=getx();
+	ey=gety();
+	ea=getangle();
+	i=i+1;
+
 	if (i < 10000) {
-		setTimeout(draw_loop, 1);		
+		setTimeout(draw, 1);		
 	}
 
 }
