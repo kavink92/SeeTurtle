@@ -1,6 +1,10 @@
-/*
+/* Author:Kavin Mentor:Kashyap Garimella
  * This file tests the rendering actions.
+ * setTimeout function is used to bring animation
+ * setTimeout function is not designed for delay, but using some tricks we can bring delay
+ * 
  */
+
 function test_actions() {
 	
 	canvascolor (0,100,0);
@@ -11,13 +15,19 @@ function test_actions() {
 
 	direction(45);
 	goy(450);
-	var i=0;
+	
+	execute();
+		}
+/*
+draw on the canvas and is called by the execute function */
+function draw()
+{
+	
 	var ex=getx();
 		var ey=gety();
 		var ea=getangle();
 	
-	while(i<10000)
-	{	
+		
 		forward(10);
 		if(ex>700)
 		{
@@ -55,8 +65,17 @@ function test_actions() {
 			else turnleft(90);
 			forward(10);
 		}
-		ex=getx();
-		ey=gety();
-		ea=getangle();
-		i=i+1;}
+		
+	}
+/*
+execute is the function which calls the draw function after 10 microsecs 
+and immediately calls itself again, 
+by this trick we bring in a timedelay of 10 microsecs
+*/
+function execute()        
+{		
+		setTimeout("draw()",10);
+
+		setTimeout("execute()",10);
+	
 }
