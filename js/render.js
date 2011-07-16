@@ -1,7 +1,9 @@
 /*
  * These are the rendering actions library.
  */
-
+var count=1;
+var delay=1;
+var  dist=1;
 var width = 300;
 var height = 150;
 
@@ -63,15 +65,31 @@ function penwidth(p_width)
 	
 function forward( distance )
 {
+	//var n=distance/dist;
+	count=1;
+	
+	forwarddraw(distance);    //forward draw is the function which draws the line is bits and calls itself after a delay
+	
+	
+	
+}
+
+function forwarddraw (distance)
+{	
 	var ctx = document.getElementById('canvas').getContext('2d');
 	ctx.beginPath();
 	ctx.moveTo(x,y);
-	x=x+distance*Math.cos(angle);		//Changes the value of coordinates
-	y=y-distance*Math.sin(angle);
+	x=x+dist*Math.cos(angle);		//Changes the value of coordinates
+	y=y-dist*Math.sin(angle);
 	ctx.lineTo(x,y);					//command for drawing line
-	ctx.stroke();						//strokes the defined path
-						
-}
+	ctx.stroke();
+	count++;				//strokes the defined path
+	var n=distance/dist;
+	
+	if(count<100)                 		//I have a problem here, the program doesnt work if I replace 100 by n
+	setTimeout("forwarddraw('+distance+')",1);
+	
+}	
 
 function backward( distance )
 {
