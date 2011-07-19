@@ -9,8 +9,8 @@ function test_actions() {
 	penwidth(2);
 	center();
 	forward(100);
-	//turnleft(40);
-	//forward(100);
+	turnleft(120);
+	forward(100);
 	//turnleft(120);
 	//forward(100);
 	
