@@ -36,6 +36,7 @@
 				rfill_value=r;					//loads information regarding
 				gfill_value=g;					//rgb values for filling
 				bfill_value=b;
+				render(stack);
 
 				}
 
@@ -53,17 +54,18 @@
 			ctx.fillStyle = 'rgb(' + rfill_value + ',' + bfill_value + ',' + gfill_value + ')';
 			ctx.fillRect(0,0,width,height);
 			center();
+			render(stack);
 		}
 
 				
-
 	function pencolor(r , b  ,g)
 		{
 			var ctx = document.getElementById('canvas').getContext('2d');
 			ctx.strokeStyle = 'rgb(' + r + ',' + b + ',' + g + ')';
 			rstroke_value=r;				
 			gstroke_value=g;
-			bstroke_value=b;		 
+			bstroke_value=b;	
+			render(stack);	 
 		}
 
 
@@ -72,43 +74,41 @@
 		{
 			var ctx = document.getElementById('canvas').getContext('2d');
 			ctx.lineWidth=p_width;							//assigns pen width
+			render(stack);
 		}
 
 
 	function forward(distance)
-		{
-			var k=0;
-			var ang=angle;
-			var n=distance/dist;
-			function forwarddraw()
-				{
+		{	
+		var d=0;							//variable which is used as a criterion to stop end the forward draw funcion
+	
+		forwarddraw();
+		
+		
+		/*function which draws small lines and calls itself after a delay*/
+		function forwarddraw()
+			{
+				var ctx = document.getElementById('canvas').getContext('2d');
+			
+				ctx.beginPath();
+				ctx.moveTo(x,y);
+				x=x+dist*Math.cos(angle);
+				y=y-dist*Math.sin(angle);
+				ctx.lineTo(x,y);
+				ctx.stroke();
+			
+				d+=dist;				//calculates how much distance turtle has traveled
+			
+				if(d<distance)
+				setTimeout(forwarddraw,1);		//calls same function after delay of 1ms
+
+				else render(stack);			//if the required distance has been covered, render is called
 
 				
-					var ctx=document.getElementById('canvas').getContext('2d');
-					ctx.beginPath();
-					ctx.moveTo(x,y);
-					x=x+dist*Math.cos(ang);
-					y=y-dist*Math.sin(ang);
-					ctx.lineTo(x,y);
-					ctx.stroke();
-					
-				
-				}
-
-			function loop()
-
-				{
-					while(k<n)
-						
-						{
-						setTimeout(forwarddraw,k*delay);k++;
-						}
-				}
-
-					
-				
-			return loop();	
-
+			}
+		
+		
+			
 		}
 
 			
@@ -135,6 +135,7 @@
 			{
 			angle=angle-(2*Math.PI);			//to make sure that angle is always between 0 and 360
 			}
+		render(stack);
 
 		}
 
