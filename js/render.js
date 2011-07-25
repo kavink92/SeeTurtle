@@ -27,6 +27,11 @@
 	var bstroke_value=0;
 
 
+        //TODO: Each action should take some time. For example, the
+        //canvascolor function doesn't. Also few functions below that also
+        //don't. All you need to do is to call the render function with a
+        //timeout. Like, in the canvascolor function, you can do this:
+        //  setTimeout(render, 
 	function canvascolor(r, b, g) {
 		
 		var ctx = document.getElementById('canvas').getContext('2d');
@@ -36,6 +41,10 @@
 				rfill_value=r;					//loads information regarding
 				gfill_value=g;					//rgb values for filling
 				bfill_value=b;
+                                //TODO(bug): Where is the stack defined? It is
+                                //not a global variable :). So make it global.
+                                //Make it global and remove the parameter fror
+                                //the render function.
 				render(stack);
 
 				}

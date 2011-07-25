@@ -35,11 +35,31 @@
 
 
 
+                //TODO: having a separate stack_count variable is a bad idea :).
+                //Why don't you just use stack.length itself? Like:
+                // if (stack.length > 0) { .. }
 		if(stack_count<len)
 		{	stack_count++;					//stack count is made so as to stop the application correctly
 			var value=stack.pop();
 
 
+                        //TODO(HINT): switch case is good idea. But it will be
+                        //slow because it has to do so many comparisons. Better
+                        //ways are:
+                        // 1. Hash table
+                        // 2. Table of pointers, so that you can directly jump
+                        // to the right function like this:
+                        //      fTable[value]
+                        // 3. Make each action a class, inherited from a 
+                        // super class. The super class will have a function
+                        // pointer and the inherited classes will fill it with
+                        // appropriate functions. You just need to call the
+                        // super class function and that's it.
+                        //
+                        // Out of the three, the second one is the best because
+                        // it takes less space and is also faster. 3rd one is
+                        // good but it add a pointer to each action object you
+                        // create.
 			switch(value)
 			{
 				case 5:
