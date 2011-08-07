@@ -1,4 +1,5 @@
 	/*
+i
 	* These are the rendering actions library.
 	*/
 
@@ -48,7 +49,7 @@
                                //not a global variable :). So make it global.
                                //Make it global and remove the parameter fror
                                //the render function.
-		render(stack);
+		setTimeout(render,render_timeout);
 
 		}
 
@@ -66,7 +67,7 @@
 		ctx.fillStyle = 'rgb(' + rfill_value + ',' + bfill_value + ',' + gfill_value + ')';
 		ctx.fillRect(0,0,width,height);
 		center();
-		render(stack);
+		render();
 	}
 
 
@@ -77,7 +78,7 @@
 		rstroke_value=r;
 		gstroke_value=g;
 		bstroke_value=b;
-		render(stack);
+		setTimeout(render,render_timeout);
 	}
 
 
@@ -86,7 +87,7 @@
 	{
 		var ctx = document.getElementById('canvas').getContext('2d');
 		ctx.lineWidth=p_width; //assigns pen width
-		render(stack);
+		setTimeout(render,render_timeout);
 	}
 
 
@@ -116,7 +117,7 @@
 		setTimeout(forwarddraw,1); //calls same function after delay of 1ms
 
 		else 
-		render(stack); //if the required distance has been covered, render is called
+		render(); //if the required distance has been covered, render is called
 
 
 	}
@@ -151,7 +152,7 @@
 			angle=angle-(2*Math.PI); //to make sure that angle is always between 0 and 360
 		}
 		
-		render(stack);
+		setTimeout(render,render_timeout);
 
 	}
 

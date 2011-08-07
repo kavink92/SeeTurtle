@@ -2,102 +2,106 @@
  * This file tests the rendering actions.
  */
 
-
+	var render_timeout=10;                                //global variable which timeout value and can be changed
 
 	function test_actions()
 	{
 
-		var actions={canvascolor:0,canvassize:1 ,pencolor: 2, penwidth: 3, turnleft: 4,forward :5}; //enum for actions
 
-		stack=new Array; //var keyword is not used so as to make stack global
+		/* declared without a "var" which implies that it is a global variable and can be used by other files also
+		   function_table is an array of objects(one object for each function), the constructor for the object is defined below
+		   the object has pointer pointing to a particular function*/
 
-		/*Pushing the actions which have to be performed*/
-		stack.push(actions.forward);
-		stack.push(actions.turnleft);
-		stack.push(actions.forward);
-		stack.push(actions.turnleft);
-		stack.push(actions.forward);
-		stack.push(actions.turnleft);
-		stack.push(actions.penwidth);
-		stack.push(actions.pencolor);
-		stack.push(actions.canvassize);
-		stack.push(actions.canvascolor);
+		function_table=new Array;	
+		
+		function execute_function()		//it is a function of the object and it will execute the function pointed by the pointer
+		{
+		
+			if((typeof this.a==null)&&(typeof this.b==null)&&(typeof this.c==null))		//typeof checks if a var is null
+				this.p();
 
-		len =(stack.length); //length of stack
-		render(stack);
+			else
+			{
+
+				if((typeof this.b==null)&&(typeof this.null))
+				this.p(this.a)
+			
+				else
+				{
+					if(typeof this.c==null)
+					return this.p(this.a,this.b);
+	
+					else
+					return this.p(this.a,this.b,this.c);
+				}
+			}
+			
+		
+		
+
+		}
+
+		//constructor overloading, p is a pointer pointing to a particular function, a,b,c are argunments to that function
+		function ftable_constructor(p)
+		{
+			this.p=p;
+			this.execute_function=execute_function;
+		}
+
+		function ftable_constructor(p,a)
+		{
+			this.p=p;
+			this.a=a;
+			this.execute_function=execute_function;
+
+		}
+
+		function ftable_constructor(p,a,b)
+		{
+			this.p=p;
+			this.a=a;
+			this.b=b;
+			this.execute_function=execute_function;
+		}
+
+		function ftable_constructor(p,a,b,c)
+		{
+			this.p=p;
+			this.a=a;
+			this.b=b;
+			this.c=c;
+			this.execute_function=execute_function;
+		}
+
+		//pushing the function
+		function_table.push(new ftable_constructor(forward,100));
+		function_table.push(new ftable_constructor(turnleft,120));
+		function_table.push(new ftable_constructor(forward,100));
+		function_table.push(new ftable_constructor(turnleft,120));
+		function_table.push(new ftable_constructor(forward,100));
+		function_table.push(new ftable_constructor(turnleft,120));
+		function_table.push(new ftable_constructor(penwidth,3));
+		function_table.push(new ftable_constructor(pencolor,200,0,0));
+		function_table.push(new ftable_constructor(canvassize,700,500));
+		function_table.push(new ftable_constructor(canvascolor,0,100,0));
+
+
+		setTimeout(render,render_timeout);
 
 	}
 
-	// function which pops the stack and call the function corresponding to it
-	function render(stack)
+
+	function render()
 	{
 
 
-
-
-		//TODO: having a separate stack_count variable is a bad idea :).
-		//Why don't you just use stack.length itself? Like:
-		// if (stack.length > 0) { .. }
-
-
-		if((stack.length)>0)
+		if((function_table.length)>0)
 		{
 			
-			var value=stack.pop();
-
-
-			//TODO(HINT): switch case is good idea. But it will be
-			//slow because it has to do so many comparisons. Better
-			//ways are:
-			// 1. Hash table
-			// 2. Table of pointers, so that you can directly jump
-			// to the right function like this:
-			// fTable[value]
-			// 3. Make each action a class, inherited from a
-			// super class. The super class will have a function
-			// pointer and the inherited classes will fill it with
-			// appropriate functions. You just need to call the
-			// super class function and that's it.
-			//
-			// Out of the three, the second one is the best because
-			// it takes less space and is also faster. 3rd one is
-			// good but it add a pointer to each action object you
-			// create.
-		
-			switch(value)
-			{
-				case 5:
-					forward(100);break;
-
-				case 4:
-					turnleft(120);break;
-
-				case 3:
-					penwidth(2);break;
-
-				case 2:
-					pencolor(200,0,0);break;
-
-				case 1:
-					canvassize(700,500);break;
-
-				case 0:
-					canvascolor(0,100,0);break;
-			}
-
+			(function_table.pop()).execute_function(); //idea for using each variable for a function is that we can pass the arguments for the function also
+                                                                   //execute function will execute each function in the object using their arguments.
+			
 		}
 	
 
-	//canvascolor (0,100,0);
-	//canvassize(700,500);
-	//pencolor(200,0,0);
-	//penwidth(2);
-	//center();
-	//forward(100);
-	//turnleft(120);
-	//forward(100);
-	//turnleft(120);
-	//forward(100);
-
-
-}
+	}
