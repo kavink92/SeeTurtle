@@ -33,7 +33,6 @@
         //don't. All you need to do is to call the render function with a
         //timeout. Like, in the canvascolor function, you can do this:
         // setTimeout(render,
-
 	function canvascolor(r, b, g) {
 
 		var ctx = document.getElementById('canvas').getContext('2d');

@@ -53,7 +53,6 @@
 			this.p=p;
 			this.a=a;
 			this.execute_function=execute_function;
-
 		}
 
 		function ftable_constructor(p,a,b)
@@ -105,3 +104,4 @@
 	
 
 	}
+
