@@ -40,7 +40,7 @@
 		}
 
 		//constructor overloading, p is a pointer pointing to a particular function, a,b,c are argunments to that function
-		function ftable_constructor(p)
+		function ftable_constructor(p)					//function overloading
 		{
 			this.p=p;
 			this.execute_function=execute_function;
@@ -71,11 +71,10 @@
 		}
 
 
-	var line_no = 0;
-	var line_width = 54;
-	var lines;
+	var line_no = 0;			//refers to current line;
+	var lines;				//an array which is gonna contain all the lines
 	
-	function repeat()
+	/*function repeat()		
 	{
 
 	
@@ -91,11 +90,11 @@
 			line_no++;
 			interpret();
 		}
-	}
+	}*/
 	function interpret_repeat(x,y,l)
 	{
 		//document.write(state);
-		lines[x] = lines[x].replace("{","");
+		lines[x] = lines[x].replace("{","");		//replaces the lines with "{" with ""
 		lines[y] = lines[y].replace("}","");
 		var i=1;
 		var line_count = y+1;
@@ -104,8 +103,8 @@
 		{
 			k = x;
 			while(k<=y)
-			{
-				lines.splice(line_count,0,lines[k]);
+			{							//splice basically adds a new line
+				lines.splice(line_count,0,lines[k]);		// if it is 3 times repeated, the code is added 3 times to txt.
 				k++;
 				line_count++;
 			}
@@ -128,12 +127,12 @@
 
 	function status(txt)
 	{
-		state = 1;
-		split_lines(txt);
+		state = 1;				//when submit button is pressed status becomes 1, this is done to prevent the functions from 
+		split_lines(txt);			//getting poped while typing itself
 	}
 	function split_lines(txt)
 	{
-		lines = null;
+		lines = null;				//splits the text
 		line_no = 0;
 		lines = txt.split("\n");
 		document.getElementById('mytext').style.backgroundColor = 'rgb(50,100,50)';
@@ -143,7 +142,7 @@
 		//document.getElementById('mytext').style.backgroundColor = 'rgb(234,50,50)';
 	}
 
-	function interpret()
+	function interpret()				//this is the main interpreter
 	{	
 	
 		var canvas = document.getElementById("canvas");
@@ -212,7 +211,7 @@
 					
 					line_no++;
 					
-					if(state == 1)					
+					if(state == 1)					//function is poped only when state is 1		
 					{
 					function_table.push(new ftable_constructor(canvascolor,l,m,n));
 					(function_table.pop()).execute_function(); }
