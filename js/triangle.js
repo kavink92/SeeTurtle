@@ -2,7 +2,7 @@
  * This file tests the rendering actions.
  */
 
-	var render_timeout=10;                                //global variable which timeout value and can be changed
+	 render_timeout=10;                                //global variable which timeout value and can be changed
 
 	function test_actions()
 	{
@@ -23,8 +23,8 @@
 			else
 			{
 
-				if((typeof this.b==null)&&(typeof this.null))
-				this.p(this.a)
+				if((typeof this.b==null)&&(typeof this.c ==null))
+				this.p(this.a);
 			
 				else
 				{
@@ -91,4 +91,3 @@
 
 
 	
-

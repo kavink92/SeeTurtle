@@ -1,0 +1,32 @@
+<html> 
+<head>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+
+
+<script type="application/javascript" src="js/interpreter.js">
+
+		var w=300;
+		var h=150;
+		var x=w/2;
+		var y=h/2;
+		var a=(Math.PI/2);
+			
+</script>	
+<script src="js/render.js"></script>
+
+<script type="application/javascript" src="js/render_functions.js"></script>
+
+</head>
+<body onload="canvascolor(50,100,50)"> 
+<center><h1 id='head'>SeeTurtle</h1><center>
+<p id="tab1"><a href="tutorial.html">TUTORIAL</a></p>
+<p id="tab2"><a href="about.html">ABOUT SEETURTLE</a></p>
+<p id="para"></p>
+<textarea id="mytext" rows="33" cols="60" onfocus="true" onkeyup="split_lines(mytext.value)" ></textarea> 
+<input class="submit" TYPE=SUBMIT VALUE="submit" onclick="status(mytext.value)"/>
+<canvas id="canvas" ></canvas>
+<p id="error">Status</p>
+
+</body>
+</html> 
+

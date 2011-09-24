@@ -17,9 +17,9 @@
 
 
 	//fill_values will store the information of rgb values for filling
-	var rfill_value=0;
-	var gfill_value=0;
-	var bfill_value=0;
+	var rfill_value=256;
+	var gfill_value=256;
+	var bfill_value=256;
 
 
 	//stroke_values will store the information of rgb values for stroking
@@ -43,12 +43,8 @@
 		gfill_value=g; //rgb values for filling
 		bfill_value=b;
 
-
-                               //TODO(bug): Where is the stack defined? It is
-                               //not a global variable :). So make it global.
-                               //Make it global and remove the parameter fror
-                               //the render function.
-		setTimeout(render,render_timeout);
+		state = 1;
+                interpret();
 
 		}
 
@@ -65,8 +61,10 @@
 		angle=Math.PI/2;
 		ctx.fillStyle = 'rgb(' + rfill_value + ',' + bfill_value + ',' + gfill_value + ')';
 		ctx.fillRect(0,0,width,height);
+		
+		state = 1;
 		center();
-		render();
+		//interpret();
 	}
 
 
@@ -77,7 +75,8 @@
 		rstroke_value=r;
 		gstroke_value=g;
 		bstroke_value=b;
-		setTimeout(render,render_timeout);
+		state = 1;
+		interpret();
 	}
 
 
@@ -86,14 +85,15 @@
 	{
 		var ctx = document.getElementById('canvas').getContext('2d');
 		ctx.lineWidth=p_width; //assigns pen width
-		setTimeout(render,render_timeout);
+		state = 1;
+		interpret();
 	}
 
 
 	function forward(distance)
 	{
 		var d=0; //variable which is used as a criterion to stop end the forward draw funcion
-
+		
 		forwarddraw();
 
 
@@ -102,47 +102,66 @@
 	function forwarddraw()
 	{
 		var ctx = document.getElementById('canvas').getContext('2d');
-
+		state = 0;
 		ctx.beginPath();
 		ctx.moveTo(x,y);
 		x=x+dist*Math.cos(angle);
 		y=y-dist*Math.sin(angle);
 		ctx.lineTo(x,y);
 		ctx.stroke();
-
+		
 		d+=dist; //calculates how much distance turtle has traveled
 
 		if(d<distance)
 		setTimeout(forwarddraw,1); //calls same function after delay of 1ms
 
-		else 
-		render(); //if the required distance has been covered, render is called
+		else{
+		state = 1;
+		interpret(); }//if the required distance has been covered, render is called
 
+		
+	
 
 	}
 
-
-
 	}
 
-
-
-	function backward( distance )
+	function backward(distance)
 	{
+		var d=0; //variable which is used as a criterion to stop end the forward draw funcion
+		
+		bdraw();
 
+
+	/*function which draws small lines and calls itself after a delay*/
+
+	function bdraw()
+	{
 		var ctx = document.getElementById('canvas').getContext('2d');
+		state = 0;
 		ctx.beginPath();
 		ctx.moveTo(x,y);
-		x=x-distance*Math.cos(angle);
-		y=y+distance*Math.sin(angle);
+		x=x-dist*Math.cos(angle);
+		y=y+dist*Math.sin(angle);
 		ctx.lineTo(x,y);
 		ctx.stroke();
+		
+		d+=dist; //calculates how much distance turtle has traveled
 
+		if(d<distance)
+		setTimeout(bdraw,1); //calls same function after delay of 1ms
+
+		else{
+		state = 1;
+		interpret(); }//if the required distance has been covered, render is called
+
+		}
 	}
 
 
 	function turnleft(ang)
 	{
+			
 		ang=((ang*Math.PI)/180); //ang in degrees shouldbe converted to radians
 		angle+=ang;
 		
@@ -150,9 +169,11 @@
 		{
 			angle=angle-(2*Math.PI); //to make sure that angle is always between 0 and 360
 		}
-		
-		setTimeout(render,render_timeout);
+		state = 1;
+		interpret();
 
+
+		
 	}
 
 
@@ -166,6 +187,8 @@
 		{
 			angle=angle+2*Math.PI;
 		}	
+		state = 1;
+		interpret();
 
 	}
 
@@ -187,13 +210,17 @@
 
 		ang=((ang*Math.PI)/180);
 		angle=ang;
-
+		state = 1;
+		interpret();
 	}
 
 	function center() //makes the cursor go to center
 	{
 		x=width/2;
 		y=height/2;
+		//document.write(x+" "+y);
+		state = 1;
+		interpret();
 	}
 
 
@@ -201,17 +228,23 @@
 	{
 		x=x_position; //goes to the given x,y coordinates
 		y=y_position;
+		state = 1;
+		interpret();
 	}
 
 
 	function gox(x_position)
 	{
 		x=x_position; //goes to given x coordinate keeping y coordinate constant
+		state = 1;
+		interpret();
 	}
 
 	function goy(y_position)
 	{
 		y=y_position;
+		state = 1;
+		interpret();
 	}
 
 	function getx()
@@ -226,44 +259,142 @@
 
 	function top(distance)
 	{
-		var ctx = document.getElementById('canvas').getContext('2d');
-		ctx.beginPath();
-		ctx.moveTo(x,y);
-		y-=distance;
-		ctx.lineTo(x,y);
-		ctx.stroke();
-	}
+		var d=0; //variable which is used as a criterion to stop end the forward draw funcion
 
-	function down(distance)
+		tdraw();
+
+
+	/*function which draws small lines and calls itself after a delay*/
+
+	function tdraw()
 	{
 		var ctx = document.getElementById('canvas').getContext('2d');
+
 		ctx.beginPath();
 		ctx.moveTo(x,y);
-		y+=distance;
+		y=y-dist;
 		ctx.lineTo(x,y);
 		ctx.stroke();
+
+		d+=dist; //calculates how much distance turtle has traveled
+
+		if(d<distance)
+		setTimeout(tdraw,1); //calls same function after delay of 1ms
+
+		else
+		{state = 1;
+		interpret(); }//if the required distance has been covered, render is called
+	}
+
+	}
+
+function down(distance)
+	{
+		var d=0; //variable which is used as a criterion to stop end the forward draw funcion
+
+		ddraw();
+
+
+	/*function which draws small lines and calls itself after a delay*/
+
+	function ddraw()
+	{
+		var ctx = document.getElementById('canvas').getContext('2d');
+
+		ctx.beginPath();
+		ctx.moveTo(x,y);
+		
+		y=y+dist;
+		ctx.lineTo(x,y);
+		ctx.stroke();
+
+		d+=dist; //calculates how much distance turtle has traveled
+
+		if(d<distance)
+		setTimeout(ddraw,1); //calls same function after delay of 1ms
+
+		else
+		{state = 1;
+		interpret(); }//if the required distance has been covered, render is called
+	}
+
 	}
 
 	function right(distance)
 	{
+		var d=0; //variable which is used as a criterion to stop end the forward draw funcion
+		
+		rdraw();
+
+
+	/*function which draws small lines and calls itself after a delay*/
+
+	function rdraw()
+	{
 		var ctx = document.getElementById('canvas').getContext('2d');
+		state = 0;
 		ctx.beginPath();
 		ctx.moveTo(x,y);
-		x+=distance;
+		x=x+dist;
 		ctx.lineTo(x,y);
 		ctx.stroke();
+		
+		d+=dist; //calculates how much distance turtle has traveled
+
+		if(d<distance)
+		setTimeout(rdraw,1); //calls same function after delay of 1ms
+
+		else{
+		state = 1;
+		interpret(); }//if the required distance has been covered, render is called
+
+		
+	
+
 	}
+
+
+	}
+
 
 	function left(distance)
 	{
+		var d=0; //variable which is used as a criterion to stop end the forward draw funcion
+		
+		ldraw();
+
+
+	/*function which draws small lines and calls itself after a delay*/
+
+	function ldraw()
+	{
 		var ctx = document.getElementById('canvas').getContext('2d');
+		state = 0;
 		ctx.beginPath();
 		ctx.moveTo(x,y);
-		x-=distance;
+		x=x-dist;
 		ctx.lineTo(x,y);
 		ctx.stroke();
+		
+		d+=dist; //calculates how much distance turtle has traveled
+
+		if(d<distance)
+		setTimeout(ldraw,1); //calls same function after delay of 1ms
+
+		else{
+		state = 1;
+		interpret(); }//if the required distance has been covered, render is called
+
+		
+	
+
 	}
 
+	}
+	function clear()
+	{
+		canvassize(width,height);	
+	}
 	function getangle()
 	{
 	return angle;
