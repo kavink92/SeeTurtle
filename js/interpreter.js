@@ -1,14 +1,14 @@
-		var w=300;
-		var h=150;
-		var x=w/2;
-		var y=h/2;
-		var a=(Math.PI/2);
+/* 	this file contains the important function of SeeTurtle		
+*	function line interpreter are there in this file
+*	Author KAVIN KARTHIK
+*	MENTOR KASHYAP GARIMELLA 
+*/
+
+		
 		var render_timeout=10; 
 		state = 0;
 
-	/* declared without a "var" which implies that it is a global variable and can be used by other files also
-		   function_table is an array of objects(one object for each function), the constructor for the object is defined below
-		   the object has pointer pointing to a particular function*/
+	
 
 		function_table=new Array;	
 		
@@ -40,7 +40,7 @@
 		}
 
 		//constructor overloading, p is a pointer pointing to a particular function, a,b,c are argunments to that function
-		function ftable_constructor(p)					//function overloading
+		function ftable_constructor(p)
 		{
 			this.p=p;
 			this.execute_function=execute_function;
@@ -71,30 +71,15 @@
 		}
 
 
-	var line_no = 0;			//refers to current line;
-	var lines;				//an array which is gonna contain all the lines
+	var line_no = 0;				//keeps count of the line no, or points the the particular line
 	
-	/*function repeat()		
-	{
-
+	var lines;					//contains the array of all lines , text is split by '\n'
 	
-		if((function_table.length)>0)
-		{
-
-		(function_table.pop()).execute_function(); //idea for using each variable for a function is that we can pass the arguments for the function also
-				                                                   //execute function will execute each function in the object using their arguments.
-
-		}
-		if((function_table.length) == 0)
-		{
-			line_no++;
-			interpret();
-		}
-	}*/
-	function interpret_repeat(x,y,l)
+	
+	function interpret_repeat(x,y,l)			//this function is used to add the given set of commands under repeat that many times 
 	{
 		//document.write(state);
-		lines[x] = lines[x].replace("{","");		//replaces the lines with "{" with ""
+		lines[x] = lines[x].replace("{","");		//it removes the '}' from the text
 		lines[y] = lines[y].replace("}","");
 		var i=1;
 		var line_count = y+1;
@@ -102,9 +87,9 @@
 		while(i<l)
 		{
 			k = x;
-			while(k<=y)
-			{							//splice basically adds a new line
-				lines.splice(line_count,0,lines[k]);		// if it is 3 times repeated, the code is added 3 times to txt.
+			while(k<=y)				//this loop adds the given commands to be repeated ,that many times in the text
+			{
+				lines.splice(line_count,0,lines[k]);
 				k++;
 				line_count++;
 			}
@@ -120,21 +105,21 @@
 	}
 	function tokenize(text)
 	{
-		var token = text.split(" ");
+		var token = text.split(" ");			//splits the given text by space
 		return token;
 		
 	}
 
 	function status(txt)
 	{
-		state = 1;				//when submit button is pressed status becomes 1, this is done to prevent the functions from 
-		split_lines(txt);			//getting poped while typing itself
+		state = 1;				//this function is brought to avoid the problem of commands being executed even before submit button is 							//pressed , it becomes 1 when submit is pressed . Only when state is 1, the functions are executed
+		split_lines(txt);
 	}
 	function split_lines(txt)
 	{
-		lines = null;				//splits the text
+		lines = null;
 		line_no = 0;
-		lines = txt.split("\n");
+		lines = txt.split("\n");			//splits the lines 
 		document.getElementById('mytext').style.backgroundColor = 'rgb(50,100,50)';
 		interpret();
 		
@@ -142,14 +127,14 @@
 		//document.getElementById('mytext').style.backgroundColor = 'rgb(234,50,50)';
 	}
 
-	function interpret()				//this is the main interpreter
+	function interpret()
 	{	
 	
 		var canvas = document.getElementById("canvas");
 	      
 	        var ctx = canvas.getContext("2d");
 
-		var token = tokenize(lines[line_no]);
+		var token = tokenize(lines[line_no]);			//tokenizes each line
 		
 	
 			if(token[0] == "repeat")
@@ -166,27 +151,26 @@
 					
 					while(li<lines.length)
 					{	
-						if(lines[li].indexOf('{')!=-1) 
+						if(lines[li].indexOf('{')!=-1) 		//after repeat checks where the '{' is found
 						{
 							count1 = li;
 							
 						}
-						if(lines[li].indexOf('}')!=-1)
+						if(lines[li].indexOf('}')!=-1)		//after repeat checks where the'}' is found
 						{
 							 count2 = li;
 							 
 						}						
 				
-						if(count1 !=0 && count2 !=0)
+						if(count1 !=0 && count2 !=0)		//if both are found it breaks
 						{ 
 						
 							break;
 						}	
 						li++;					
 					}
-					
 					if(state==1){
-					interpret_repeat(count1, count2,l); }
+					interpret_repeat(count1, count2,l); }		//gives info to interpret_repeat
 
 					else
 					{ line_no++;// document.write("0");
@@ -196,24 +180,24 @@
 				else
 				{
 					//document.write("Error in line "+line_no);
-					document.getElementById('mytext').style.backgroundColor = 'rgb(50,0,0)';
+					document.getElementById('mytext').style.backgroundColor = 'rgb(50,0,0)';		//if error is detected
 					setTimeout(interpret,500);
 				}
 			}
 			if(token[0] == "canvascolor")
 			{
-				if(token.length == 4)
+				if(token.length >= 4)
 				{
 					
-					var l=parseInt(token[1]);
+					var l=parseInt(token[1]);		//parses the text to number
 					var m=parseInt(token[2]);
 					var n=parseInt(token[3]);					
 					
 					line_no++;
 					
-					if(state == 1)					//function is poped only when state is 1		
+					if(state == 1)					
 					{
-					function_table.push(new ftable_constructor(canvascolor,l,m,n));
+					function_table.push(new ftable_constructor(canvascolor,l,m,n));		//only if state is 1, it is executed
 					(function_table.pop()).execute_function(); }
 					else
 					setTimeout(interpret,500);
@@ -711,7 +695,22 @@
 				}
 		
 		}
-		state = 0;
+		if(token[0] == "end")
+		{
+			if(token.length == 1)		//end is not mandatory, but it makes state= 0
+				{
+					state = 0;
+				}
+
+				else
+				{
+					//document.write("Error in line "+line_no);
+					document.getElementById('mytext').style.backgroundColor = 'rgb(50,0,0)';
+					setTimeout(interpret,500);
+				}
+		
+		}
+		//setTimeout(interpret,500);
 		
 	}
 

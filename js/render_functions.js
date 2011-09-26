@@ -6,18 +6,19 @@
 	var count=0;
 	var delay=10;
 	var dist=1;
-	var width = 300;
-	var height = 150;
+	var width = 540;
+	var height= 540;
 
 
 	//stores the inforation regarding the coordinates of turtle
-	var x=width/2;
-	var y=height/2;
+	var x=270;
+	var y=270;
 	var angle=(Math.PI/2);
 
 
 	//fill_values will store the information of rgb values for filling
-	var rfill_value=256;
+	var rfill_value=256;end
+
 	var gfill_value=256;
 	var bfill_value=256;
 
@@ -28,11 +29,14 @@
 	var bstroke_value=0;
 
 
-        //TODO: Each action should take some time. For example, the
-        //canvascolor function doesn't. Also few functions below that also
-        //don't. All you need to do is to call the render function with a
-        //timeout. Like, in the canvascolor function, you can do this:
-        // setTimeout(render,
+      function begin()
+	  {
+		var ctx = document.getElementById('canvas').getContext('2d');
+		ctx.canvas.width=540; //sets the canvas width
+		ctx.canvas.height=540; //sets the canvas height
+		ctx.fillStyle = 'rgb(250,250,250)';
+		ctx.fillRect(0, 0, 600, 600);
+		}
 	function canvascolor(r, b, g) {
 
 		var ctx = document.getElementById('canvas').getContext('2d');
